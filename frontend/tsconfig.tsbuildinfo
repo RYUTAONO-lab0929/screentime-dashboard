@@ -1,0 +1,1 @@
+{"root":["./src/main.tsx","./src/components/CategoryDonut.tsx","./src/components/CohortChart.tsx","./src/components/Filters.tsx","./src/components/KpiCards.tsx","./src/components/TimeseriesChart.tsx","./src/components/TopAppsTable.tsx","./src/lib/api.ts","./src/pages/App.tsx","./src/store/filters.ts","./src/types/react-plotly.d.ts"],"version":"5.9.3"}

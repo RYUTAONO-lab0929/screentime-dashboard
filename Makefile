@@ -14,10 +14,10 @@ logs:
 	docker compose logs -f --tail 200
 
 migrate:
-	docker compose exec api alembic upgrade head || true
+	docker compose exec -e PYTHONPATH=/app api alembic upgrade head || true
 
 seed:
-	docker compose exec api python tools/seed_synthetic.py
+	docker compose exec -e PYTHONPATH=/app api python tools/seed_synthetic.py
 
 backend-test:
 	docker compose exec api pytest -q
@@ -31,4 +31,4 @@ fmt:
 test: backend-test
 
 openapi:
-	docker compose exec api python tools/export_openapi.py
+	docker compose exec -e PYTHONPATH=/app api python tools/export_openapi.py

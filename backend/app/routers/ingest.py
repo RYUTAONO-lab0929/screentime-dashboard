@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
 from sqlmodel import Session
-from ..config import Settings
+from ..config import get_settings, Settings
 from ..db import get_session
 from ..models import RawEvent
 from ..schemas import IngestRequest
@@ -19,7 +19,7 @@ async def ingest_screentime(
     x_signature: str | None = Header(default=None, alias="X-Signature"),
     x_timestamp: str | None = Header(default=None, alias="X-Timestamp"),
     authorization: str | None = Header(default=None, alias="Authorization"),
-    settings: Settings = Depends(Settings),
+    settings: Settings = Depends(get_settings),
     session: Session = Depends(get_session),
 ):
     # 1) Bearerトークン認証（端末/MDMアップローダ向け）

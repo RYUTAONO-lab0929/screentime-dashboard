@@ -1,12 +1,12 @@
 from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .config import Settings
+from .config import get_settings
 from .db import create_db_and_tables
 from .routers import ingest, analytics, exports, privacy
 
 
-settings = Settings()
+settings = get_settings()
 
 app = FastAPI(title=settings.app_name)
 

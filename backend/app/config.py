@@ -1,4 +1,6 @@
 from typing import List, Optional
+import json
+from functools import lru_cache
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -33,5 +35,18 @@ class Settings(BaseSettings):
     @classmethod
     def _split_tokens(cls, v):
         if isinstance(v, str):
-            return [t.strip() for t in v.split(",") if t.strip()]
+            s = v.strip()
+            if s.startswith("["):
+                try:
+                    arr = json.loads(s)
+                    if isinstance(arr, list):
+                        return [str(t).strip() for t in arr if str(t).strip()]
+                except Exception:
+                    pass
+            return [t.strip() for t in s.split(",") if t.strip()]
         return v or []
+
+
+@lru_cache
+def get_settings() -> "Settings":
+    return Settings()

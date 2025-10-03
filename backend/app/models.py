@@ -1,8 +1,8 @@
 from __future__ import annotations
-from datetime import datetime, date, timezone
+from datetime import datetime, date as date_type, timezone
 from typing import Optional
 from sqlmodel import SQLModel, Field
-from sqlalchemy import Column, JSON, UniqueConstraint
+from sqlalchemy import Column, JSON, UniqueConstraint, Date
 
 
 class TimestampMixin(SQLModel):
@@ -19,7 +19,7 @@ class Participant(TimestampMixin, SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     participant_id: str = Field(index=True, unique=True)
     cohort_id: Optional[str] = Field(default=None, index=True)
-    enrollment_date: Optional[date] = None
+    enrollment_date: Optional[date_type] = None
     consent_flags: Optional[dict] = Field(default=None, sa_column=Column(JSON))
     status: str = Field(default="active", index=True)
 
@@ -48,7 +48,7 @@ class RawEvent(TimestampMixin, SQLModel, table=True):
 class UsageDaily(TimestampMixin, SQLModel, table=True):
     __tablename__ = "usage_daily"
     id: Optional[int] = Field(default=None, primary_key=True)
-    date: date = Field(index=True)
+    usage_date: date_type = Field(sa_column=Column("date", Date))
     participant_id: str = Field(index=True)
     category: Optional[str] = Field(default=None, index=True)
     app_bundle_id: Optional[str] = Field(default=None, index=True)
@@ -65,7 +65,7 @@ class UsageDaily(TimestampMixin, SQLModel, table=True):
 class WebDomainDaily(TimestampMixin, SQLModel, table=True):
     __tablename__ = "web_domain_daily"
     id: Optional[int] = Field(default=None, primary_key=True)
-    date: date = Field(index=True)
+    usage_date: date_type = Field(sa_column=Column("date", Date))
     participant_id: str = Field(index=True)
     domain: str = Field(index=True)
     total_minutes: int = 0
@@ -100,4 +100,4 @@ class AuditLog(TimestampMixin, SQLModel, table=True):
     object_type: Optional[str] = None
     object_id: Optional[str] = None
     ip_address: Optional[str] = None
-    metadata: Optional[dict] = Field(default=None, sa_column=Column(JSON))
+    meta: Optional[dict] = Field(default=None, sa_column=Column("metadata", JSON))
