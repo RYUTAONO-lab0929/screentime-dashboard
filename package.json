@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "plotly.js": "^3.1.1",
+    "react-plotly.js": "^2.6.0"
+  }
 }
